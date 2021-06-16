@@ -10,6 +10,8 @@ colorama==0.3.7
 cryptography==2.1.4
 Django==3.2.4
 django-crispy-forms==1.12.0
+django-heroku
+django-storages
 feedparser==5.2.1
 gunicorn==20.1.0
 html5lib==0.999999999
@@ -32,4 +34,4 @@ simplejson==3.13.2
 six==1.11.0
 soupsieve==2.2.1
 urllib3==1.26.5
-
+whitenoise
