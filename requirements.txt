@@ -2,7 +2,6 @@ asgiref==3.3.4
 asn1crypto==0.24.0
 beautifulsoup4==4.9.3
 blinker==1.4
-Brlapi==0.6.6
 bs4==0.0.1
 certifi==2021.5.30
 chardet==4.0.0
