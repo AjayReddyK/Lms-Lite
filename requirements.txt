@@ -34,7 +34,6 @@ SecretStorage==2.3.1
 simplejson==3.13.2
 six==1.11.0
 soupsieve==2.2.1
-sqlparse==0.4.1
 system-service==0.3
 systemd-python==234
 typing-extensions==3.10.0.0
