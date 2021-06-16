@@ -26,13 +26,9 @@ oauthlib==2.0.6
 Pillow==8.2.0
 protobuf==3.0.0
 pycairo==1.16.2
-pycrypto==2.6.1
-pygobject==3.26.1
 python-dateutil==2.6.1
 python-debian==0.1.32
 pytz==2021.1
-PyYAML==3.12
-reportlab==3.4.0
 requests==2.25.1
 SecretStorage==2.3.1
 simplejson==3.13.2
