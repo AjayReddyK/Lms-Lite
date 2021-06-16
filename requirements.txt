@@ -20,14 +20,11 @@ keyrings.alt==3.0
 launchpadlib==1.10.6
 lazr.restfulclient==0.13.5
 lazr.uri==1.0.3
-lxml==4.2.1
 oauth==1.0.1
 oauthlib==2.0.6
 Pillow==8.2.0
 protobuf==3.0.0
-pycairo==1.16.2
 python-dateutil==2.6.1
-python-debian==0.1.32
 pytz==2021.1
 requests==2.25.1
 SecretStorage==2.3.1
