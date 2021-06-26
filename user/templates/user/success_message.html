@@ -1,10 +1,21 @@
 {% extends 'user/base_template.html' %}
 {% block content %}
-	{% for item in content %}
+	<h3> Attendances </h3>
+	{% for item in attendance %}
 		<article class="media content-section">
 		  <div class="media-body">
 		    <strong>{{ item.subject }}</strong>
 		    <small class="text-muted">{{ item.time }}</small>
+		  </div>
+		</article>
+	{% endfor %}
+	<h3> Upcoming Assignment Submissions </h3>
+	{% for item in assignment %}
+		<article class="media content-section">
+		  <div class="media-body">
+		    <strong>{{ item.subject }}</strong>
+		    <small class="text-muted">{{ item.time }}</small>
+		    <p>{{ item.title }}
 		  </div>
 		</article>
 	{% endfor %}

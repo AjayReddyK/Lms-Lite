@@ -18,11 +18,15 @@ def loginhome(request):
 		}
 		print("credentials received")
 		with requests.Session() as s:
-			  subjects=[]
-			  timings=[]
+			  attendance_subjects=[]
+			  attendance_timings=[]
+			  assignment_subjects=[]
+			  assignment_timings=[]
+			  assignment_titles=[]
 			  links=[]
 			  attendences=[]
 			  content=[]
+			  context={}
 			  print("entering request")
 			  headers={'user-agent':'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:88.0) Gecko/20100101 Firefox/88.0'}
 			  url="http://lms.rgukt.ac.in/login/index.php"
@@ -48,11 +52,11 @@ def loginhome(request):
 			  	for i in events:
 			  		time=i.find("div",class_="row").find("div",class_="col-11").text
 			  		updated_time=time.split(",")[1]
-			  		timings.append(updated_time)
+			  		attendance_timings.append(updated_time)
 			  		event=i.find_all('div',class_='row mt-1')[-1]
 			  		subject_name=event.find('div',class_='col-11').a.text
 			  		subject_link=event.find('div',class_='col-11').a['href']
-			  		subjects.append(subject_name)
+			  		attendance_subjects.append(subject_name)
 			  		'''links.append(subject_link)
 			  		r=s.get(subject_link,headers=headers).text
 			  		soup=BeautifulSoup(r,'lxml')
@@ -67,14 +71,40 @@ def loginhome(request):
 			  		  bl=l.find('td',class_='statuscol cell c2 lastcol').a['href']
 			  		  if(bl!=None):
 			  		  	print('link found')'''
-
-			  	for i in range(len(subjects)):
+			  	for i in range(len(attendance_subjects)):
 			  		dik={}
-			  		context={}
-			  		dik['subject']=subjects[i]
-			  		dik['time']=timings[i]
+			  		dik['subject']=attendance_subjects[i]
+			  		dik['time']=attendance_timings[i]
 			  		content.append(dik)
-			  		context['content']=content
+			  	context['attendance']=content
+			  	events=l3.find_all('div',{'class':'event mt-3','data-event-component':'mod_assign'})
+			  	for day in range(7):
+			  		for i in events:
+			  			assignment_titles.append(i['data-event-title'])
+			  			time=i.find("div",class_="row").find("div",class_="col-11").text
+			  			assignment_timings.append(time)
+			  			event=i.find_all('div',class_='row mt-1')[-1]
+			  			subject_name=event.find('div',class_='col-11').a.text
+			  			subject_link=event.find('div',class_='col-11').a['href']
+			  			assignment_subjects.append(subject_name)
+			  		if(day==6):
+			  			break
+			  		else:
+			  			link=l2.find('div',class_='calendar-controls').find('a',class_='arrow_link next')['href']
+			  			cal=s.get(link,headers=headers).text
+			  			soup=BeautifulSoup(cal,'lxml')
+			  			list=soup.find('body')
+			  			l2=list.find('div',{"class":"calendarwrapper"})
+			  			l3=l2.find("div",class_="eventlist my-1")
+			  			events=l3.find_all('div',{'class':'event mt-3','data-event-component':'mod_assign'})
+			  	content=[]
+			  	for i in range(len(assignment_subjects)):
+			  		dik={}
+			  		dik['subject']=assignment_subjects[i]
+			  		dik['time']=assignment_timings[i]
+			  		dik['title']=assignment_titles[i]
+			  		content.append(dik)
+			  	context['assignment']=content
 			  	print(context)
 			  	return render(request,'user/success_message.html',context)
 			  print("something went wrong")
