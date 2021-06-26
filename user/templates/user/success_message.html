@@ -1,5 +1,12 @@
 {% extends 'user/base_template.html' %}
 {% block content %}
-	<h2>Under Construction</h2>
+	{% for item in content %}
+		<article class="media content-section">
+		  <div class="media-body">
+		    <strong>{{ item.subject }}</strong>
+		    <small class="text-muted">{{ item.time }}</small>
+		  </div>
+		</article>
+	{% endfor %}
 {% endblock content %}
 
