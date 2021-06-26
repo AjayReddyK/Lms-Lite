@@ -95,7 +95,7 @@ def loginhome(request):
 			  			quiz_titles.append(i['data-event-title'])
 			  			time=i.find("div",class_="row").find("div",class_="col-11").text
 			  			quiz_timings.append(time)
-			  			event=i.find_all('div',class_='row mt-1')[-1]
+			  			bevent=i.find_all('div',class_='row mt-1')[-1]
 			  			subject_name=bevent.find('div',class_='col-11').a.text
 			  			subject_link=bevent.find('div',class_='col-11').a['href']
 			  			quiz_subjects.append(subject_name)
