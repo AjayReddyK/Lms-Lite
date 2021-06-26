@@ -20,6 +20,9 @@ def loginhome(request):
 		with requests.Session() as s:
 			  attendance_subjects=[]
 			  attendance_timings=[]
+			  quiz_subjects=[]
+			  quiz_timings=[]
+			  quiz_titles=[]
 			  assignment_subjects=[]
 			  assignment_timings=[]
 			  assignment_titles=[]
@@ -105,6 +108,34 @@ def loginhome(request):
 			  		dik['title']=assignment_titles[i]
 			  		content.append(dik)
 			  	context['assignment']=content
+			  	events=l3.find_all('div',{'class':'event mt-3','data-event-component':'mod_quiz'})
+			  	for day in range(7):
+			  		for i in events:
+			  			quiz_titles.append(i['data-event-title'])
+			  			time=i.find("div",class_="row").find("div",class_="col-11").text
+			  			quiz_timings.append(time)
+			  			event=i.find_all('div',class_='row mt-1')[-1]
+			  			subject_name=event.find('div',class_='col-11').a.text
+			  			subject_link=event.find('div',class_='col-11').a['href']
+			  			quiz_subjects.append(subject_name)
+			  		if(day==6):
+			  			break
+			  		else:
+			  			link=l2.find('div',class_='calendar-controls').find('a',class_='arrow_link next')['href']
+			  			cal=s.get(link,headers=headers).text
+			  			soup=BeautifulSoup(cal,'lxml')
+			  			list=soup.find('body')
+			  			l2=list.find('div',{"class":"calendarwrapper"})
+			  			l3=l2.find("div",class_="eventlist my-1")
+			  			events=l3.find_all('div',{'class':'event mt-3','data-event-component':'mod_quiz'})
+			  	content=[]
+			  	for i in range(len(quiz_subjects)):
+			  		dik={}
+			  		dik['subject']=quiz_subjects[i]
+			  		dik['time']=quiz_timings[i]
+			  		dik['title']=quiz_titles[i]
+			  		content.append(dik)
+			  	context['quiz']=content
 			  	print(context)
 			  	return render(request,'user/success_message.html',context)
 			  print("something went wrong")

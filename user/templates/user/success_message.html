@@ -19,5 +19,15 @@
 		  </div>
 		</article>
 	{% endfor %}
+	<h3> Upcoming Quiz </h3>
+	{% for item in quiz %}
+		<article class="media content-section">
+		  <div class="media-body">
+		    <strong>{{ item.subject }}</strong>
+		    <small class="text-muted">{{ item.time }}</small>
+		    <p>{{ item.title }}
+		  </div>
+		</article>
+	{% endfor %}
 {% endblock content %}
 
