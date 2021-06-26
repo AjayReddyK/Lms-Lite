@@ -22,6 +22,7 @@ keyrings.alt==3.0
 launchpadlib==1.10.6
 lazr.restfulclient==0.13.5
 lazr.uri==1.0.3
+lxml
 oauth==1.0.1
 oauthlib==2.0.6
 Pillow==8.2.0

@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 import requests
 from bs4 import BeautifulSoup
 import re
+import lxml
 from django.contrib import messages
 
 def loginhome(request):
