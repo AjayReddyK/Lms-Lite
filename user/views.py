@@ -20,18 +20,21 @@ def loginhome(request):
 		with requests.Session() as s:
 			  attendance_subjects=[]
 			  attendance_timings=[]
+			  attendance_link=[]
 			  quiz_subjects=[]
 			  quiz_timings=[]
 			  quiz_titles=[]
+			  quiz_link=[]
 			  assignment_subjects=[]
 			  assignment_timings=[]
 			  assignment_titles=[]
-			  links=[]
+			  assignment_link=[]
 			  attendences=[]
 			  content=[]
 			  context={}
 			  print("entering request")
-			  headers={'user-agent':'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:88.0) Gecko/20100101 Firefox/88.0'}
+			  headers={'user-agent':request.META['HTTP_USER_AGENT']}
+			  print(headers)
 			  url="http://lms.rgukt.ac.in/login/index.php"
 			  r=s.get(url,headers=headers)
 			  print("got data, appling soup")
@@ -60,20 +63,6 @@ def loginhome(request):
 			  		subject_name=event.find('div',class_='col-11').a.text
 			  		subject_link=event.find('div',class_='col-11').a['href']
 			  		attendance_subjects.append(subject_name)
-			  		'''links.append(subject_link)
-			  		r=s.get(subject_link,headers=headers).text
-			  		soup=BeautifulSoup(r,'lxml')
-			  		k=soup.find_all('li',class_='activity attendance modtype_attendance ')[-1]
-			  		attendence_link=k.find('a',class_="aalink")['href']
-			  		attendences.append(attendence_link)
-			  		sub=s.get(attendence_link,headers=headers).text
-			  		soup=BeautifulSoup(sub,'lxml')
-			  		if(soup.body.find(text=re.compile('Submit attendance'))!=None):
-			  		  l=soup.body.find('div',id="page-content").find('tr',class_='lastrow')
-			  		  print(l)
-			  		  bl=l.find('td',class_='statuscol cell c2 lastcol').a['href']
-			  		  if(bl!=None):
-			  		  	print('link found')'''
 			  	for i in range(len(attendance_subjects)):
 			  		dik={}
 			  		dik['subject']=attendance_subjects[i]
@@ -89,16 +78,18 @@ def loginhome(request):
 			  			assignment_timings.append(time)
 			  			event=i.find_all('div',class_='row mt-1')[-1]
 			  			subject_name=event.find('div',class_='col-11').a.text
-			  			subject_link=event.find('div',class_='col-11').a['href']
+			  			link=i.find('a',class_='card-link')['href']
 			  			assignment_subjects.append(subject_name)
+			  			assignment_link.append(link)
 			  		for i in bevents:
 			  			quiz_titles.append(i['data-event-title'])
 			  			time=i.find("div",class_="row").find("div",class_="col-11").text
 			  			quiz_timings.append(time)
 			  			bevent=i.find_all('div',class_='row mt-1')[-1]
 			  			subject_name=bevent.find('div',class_='col-11').a.text
-			  			subject_link=bevent.find('div',class_='col-11').a['href']
+			  			link=i.find('a',class_='card-link')['href']
 			  			quiz_subjects.append(subject_name)
+			  			quiz_link.append(link)
 			  		if(day==6):
 			  			break
 			  		else:
@@ -116,6 +107,7 @@ def loginhome(request):
 			  		dik['subject']=assignment_subjects[i]
 			  		dik['time']=assignment_timings[i]
 			  		dik['title']=assignment_titles[i]
+			  		dik['link']=assignment_link[i]
 			  		content.append(dik)
 			  	context['assignment']=content
 			  	bevents=l3.find_all('div',{'class':'event mt-3','data-event-component':'mod_quiz'})
@@ -125,6 +117,7 @@ def loginhome(request):
 			  		dik['subject']=quiz_subjects[i]
 			  		dik['time']=quiz_timings[i]
 			  		dik['title']=quiz_titles[i]
+			  		dik['link']=quiz_link[i]
 			  		content.append(dik)
 			  	context['quiz']=content
 			  	context['title']='Lms-Lite'
