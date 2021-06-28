@@ -20,7 +20,7 @@ def loginhome(request):
 		with requests.Session() as s:
 			  attendance_subjects=[]
 			  attendance_timings=[]
-			  attendance_link=[]
+			  attendance_status=[]
 			  quiz_subjects=[]
 			  quiz_timings=[]
 			  quiz_titles=[]
@@ -61,12 +61,48 @@ def loginhome(request):
 			  		attendance_timings.append(updated_time)
 			  		event=i.find_all('div',class_='row mt-1')[-1]
 			  		subject_name=event.find('div',class_='col-11').a.text
-			  		subject_link=event.find('div',class_='col-11').a['href']
+			  		link=i.find('a',class_='card-link')['href']
 			  		attendance_subjects.append(subject_name)
+			  		link=s.get(link,headers=headers).text
+			  		soup=BeautifulSoup(link,'lxml')
+			  		a_link=soup.find('td',class_="statuscol cell c2 lastcol")
+			  		if(a_link!=None):
+			  			a_link=a_link.a['href']
+			  			b=a_link.split("?")[1].split("&")
+			  			sessid=b[0].split("=")[1]
+			  			sesskey=b[1].split("=")[1]
+			  			print(sessid,",",sesskey)
+			  			link="http://lms.rgukt.ac.in/mod/attendance/attendance.php"
+			  			final_page=s.get(a_link,headers=headers).text
+			  			soup=BeautifulSoup(final_page,'lxml')
+			  			status=soup.find('input',{"class":"form-check-input","name":"status"})['value']
+			  			at_data={
+			  				"sessid":sessid,
+			  				"sesskey":{
+			  					"0":sesskey,
+			  					"1":sesskey
+			  				},
+			  				"_qf__mod_attendance_form_studentattendance":"1",
+			  				"mform_isexpanded_id_session":"1",
+			  				"status":status,
+			  				"submitbutton":"Save+changes"
+			  			}
+			  			submission=s.post(link,data=at_data,headers=headers).text
+			  			soup=BeautifulSoup(submission,'lxml')
+			  			b_link=soup.find('td',class_="statuscol cell c2 lastcol")
+			  			if(b_link==None):
+			  				attendance_status.append("successfully Marked Now")
+			  			else:
+			  				attendance_status.append("Not active now")
+			  		else:
+			  			attendance_status.append("Not active now")
+
+
 			  	for i in range(len(attendance_subjects)):
 			  		dik={}
 			  		dik['subject']=attendance_subjects[i]
 			  		dik['time']=attendance_timings[i]
+			  		dik['status']=attendance_status[i]
 			  		content.append(dik)
 			  	context['attendance']=content
 			  	events=l3.find_all('div',{'class':'event mt-3','data-event-component':'mod_assign'})
@@ -121,7 +157,7 @@ def loginhome(request):
 			  		content.append(dik)
 			  	context['quiz']=content
 			  	context['title']='Lms-Lite'
-			  	print(context)
+			  	messages.success(request,f'Welcome {a} !!')
 			  	return render(request,'user/success_message.html',context)
 			  print("something went wrong")
 

@@ -6,6 +6,7 @@
 		  <div class="media-body">
 		    <strong>{{ item.subject }}</strong>
 		    <small class="text-muted">{{ item.time }}</small>
+		    <p style="color: dodgerblue;">{{ item.status }}</p>
 		  </div>
 		</article>
 	{% endfor %}
@@ -15,7 +16,7 @@
 		  <div class="media-body">
 		    <strong>{{ item.subject }}</strong>
 		    <small class="text-muted">{{ item.time }}</small>
-		    <p>{{ item.title }}
+		    <p>{{ item.title }}</p>
 		    <a href={{ item.link }} target="blank"> Add Submission </a>
 		  </div>
 		</article>
