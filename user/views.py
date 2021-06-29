@@ -33,7 +33,7 @@ def loginhome(request):
 			  attendences=[]
 			  content=[]
 			  context={}
-			  print("entering request")
+			  print("entering requests")
 			  headers={'user-agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'}
 			  #print(headers)
 			  url="http://lms.rgukt.ac.in/login/index.php"
