@@ -1,16 +1,16 @@
 {% extends 'user/base_template.html' %}
 {% block content %}
-	<h3> Attendances </h3>
+	<h3> Attendances<small class="text-muted">(Today's)</small> </h3>
 	{% for item in attendance %}
 		<article class="media content-section">
 		  <div class="media-body">
 		    <strong>{{ item.subject }}</strong>
 		    <small class="text-muted">{{ item.time }}</small>
-		    <p style="color: dodgerblue;">{{ item.status }}</p>
+		    <p  {% ifequal item.status "present" %} style="color: darkgreen;" {% else %} style="color: red;"{% endifequal %} >{{ item.status }}</p>
 		  </div>
 		</article>
 	{% endfor %}
-	<h3> Upcoming Assignment Submissions </h3>
+	<h3> Upcoming Assignment Submissions<small class="text-muted">(next 5 days)</small> </h3>
 	{% for item in assignment %}
 		<article class="media content-section">
 		  <div class="media-body">
@@ -21,7 +21,7 @@
 		  </div>
 		</article>
 	{% endfor %}
-	<h3> Upcoming Quiz </h3>
+	<h3> Upcoming Quiz<small class="text-muted">(next 5 days)</small> </h3>
 	{% for item in quiz %}
 		<article class="media content-section">
 		  <div class="media-body">

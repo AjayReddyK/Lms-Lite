@@ -33,7 +33,7 @@ def loginhome(request):
 			  content=[]
 			  context={}
 			  print("entering request")
-			  headers={'user-agent':request.META['HTTP_USER_AGENT']}
+			  headers={'user-agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'}
 			  print(headers)
 			  url="http://lms.rgukt.ac.in/login/index.php"
 			  r=s.get(url,headers=headers)
@@ -45,12 +45,15 @@ def loginhome(request):
 			  r=s.post(url,data=login_data,headers=headers).text
 			  print("request posted")
 			  soup=BeautifulSoup(r,'lxml')
-			  a=soup.body.find(text=re.compile(username))
+			  a=soup.body.find(text=re.compile(username[1:]))
 			  if(a!=None):
 			  	print('credentials are correct')
-			  	messages.success(request,f'Welcome {a} !!')
 			  	cal=s.get("http://lms.rgukt.ac.in/calendar/view.php?view=day",headers=headers).text
 			  	soup=BeautifulSoup(cal,'lxml')
+			  	date=soup.find('div',class_="calendar-controls").h2.text.split(" ")
+			  	date[2]=date[2][0:3]
+			  	date=" ".join(date[1:])
+			  	print(date)
 			  	list=soup.find('body')
 			  	l2=list.find('div',{"class":"calendarwrapper"})
 			  	l3=l2.find("div",class_="eventlist my-1")
@@ -61,6 +64,7 @@ def loginhome(request):
 			  		attendance_timings.append(updated_time)
 			  		event=i.find_all('div',class_='row mt-1')[-1]
 			  		subject_name=event.find('div',class_='col-11').a.text
+			  		print(subject_name)
 			  		link=i.find('a',class_='card-link')['href']
 			  		attendance_subjects.append(subject_name)
 			  		link=s.get(link,headers=headers).text
@@ -71,33 +75,38 @@ def loginhome(request):
 			  			b=a_link.split("?")[1].split("&")
 			  			sessid=b[0].split("=")[1]
 			  			sesskey=b[1].split("=")[1]
-			  			print(sessid,",",sesskey)
+			  			print(sessid)
+			  			print(sesskey)
 			  			link="http://lms.rgukt.ac.in/mod/attendance/attendance.php"
 			  			final_page=s.get(a_link,headers=headers).text
 			  			soup=BeautifulSoup(final_page,'lxml')
 			  			status=soup.find('input',{"class":"form-check-input","name":"status"})['value']
+			  			print("status code=",status)
 			  			at_data={
 			  				"sessid":sessid,
-			  				"sesskey":{
-			  					"0":sesskey,
-			  					"1":sesskey
-			  				},
-			  				"_qf__mod_attendance_form_studentattendance":"1",
-			  				"mform_isexpanded_id_session":"1",
+			  				"sesskey":sesskey,
+			  				"sesskey":sesskey,
+			  				"_qf__mod_attendance_form_studentattendance":1,
+			  				"mform_isexpanded_id_session":1,
 			  				"status":status,
 			  				"submitbutton":"Save+changes"
 			  			}
-			  			submission=s.post(link,data=at_data,headers=headers).text
-			  			soup=BeautifulSoup(submission,'lxml')
-			  			b_link=soup.find('td',class_="statuscol cell c2 lastcol")
-			  			if(b_link==None):
-			  				attendance_status.append("successfully Marked Now")
-			  			else:
-			  				attendance_status.append("Not active now")
+			  			print(at_data)
+			  			headers['referer']=a_link
+			  			print(headers)
+			  			submission=s.post(link,data=at_data,headers=headers,allow_redirects=True)
+			  			attendance_status.append("Attendance Marked... [^_^]")
+			  			print("attendance marked")
 			  		else:
-			  			attendance_status.append("Not active now")
-
-
+			  			m=soup.find(text=re.compile(date)).parent.parent.parent
+			  			#print(m)
+			  			att_status=m.find('td',class_="statuscol cell c2").text
+			  			if(att_status=="?"):
+			  				attendance_status.append("absent")
+			  			elif(att_status=="Present"):
+			  			 	attendance_status.append("present")
+			  			else:
+			  				attendance_status.append("status_unknown")
 			  	for i in range(len(attendance_subjects)):
 			  		dik={}
 			  		dik['subject']=attendance_subjects[i]
@@ -107,7 +116,7 @@ def loginhome(request):
 			  	context['attendance']=content
 			  	events=l3.find_all('div',{'class':'event mt-3','data-event-component':'mod_assign'})
 			  	bevents=l3.find_all('div',{'class':'event mt-3','data-event-component':'mod_quiz'})
-			  	for day in range(7):
+			  	for day in range(5):
 			  		for i in events:
 			  			assignment_titles.append(i['data-event-title'])
 			  			time=i.find("div",class_="row").find("div",class_="col-11").text
@@ -126,7 +135,7 @@ def loginhome(request):
 			  			link=i.find('a',class_='card-link')['href']
 			  			quiz_subjects.append(subject_name)
 			  			quiz_link.append(link)
-			  		if(day==6):
+			  		if(day==4):
 			  			break
 			  		else:
 			  			link=l2.find('div',class_='calendar-controls').find('a',class_='arrow_link next')['href']
