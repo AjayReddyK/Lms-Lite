@@ -6,7 +6,7 @@
 		  <div class="media-body">
 		    <strong>{{ item.subject }}</strong>
 		    <small class="text-muted">{{ item.time }}</small>
-		    <p  {% ifequal item.status "present" %} style="color: darkgreen;" {% else %} style="color: red;"{% endifequal %} >{{ item.status }}</p>
+		    <p  {% ifequal item.status "present" %} style="color: darkgreen;" {% else %}{% ifequal item.status "Not active yet" %} style="color: dodgerblue;" {% else %} style="color: red;" {% endifequal %} {% endifequal %} >{{ item.status }}</p>
 		  </div>
 		</article>
 	{% endfor %}
