@@ -12,6 +12,7 @@ Django==3.2.4
 django-crispy-forms==1.12.0
 django-heroku
 django-storages
+datetime
 feedparser==5.2.1
 gunicorn==20.1.0
 html5lib==0.999999999
