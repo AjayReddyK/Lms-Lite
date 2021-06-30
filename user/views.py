@@ -73,12 +73,9 @@ def loginhome(request):
 			  		timet=i.find("div",class_="row").find("div",class_="col-11").text
 			  		updated_time=timet.split(",")[1]
 			  		attendance_timings.append(updated_time)
-			  		#print(updated_time)
 			  		temp_time=updated_time[1:].split(" ")[:2]
-			  		#print(temp_time)
 			  		tt=temp_time[0].split(":")
 			  		tt.append(temp_time[1])
-			  		#print(tt)
 			  		for j in range(2):
 			  			tt[j]=int(tt[j])
 			  		if(tt[2]=="PM" and tt[0]<12):
@@ -86,7 +83,6 @@ def loginhome(request):
 			  		tt[1]=tt[1]+3
 			  		event=i.find_all('div',class_='row mt-1')[-1]
 			  		subject_name=event.find('div',class_='col-11').a.text
-			  		#print(subject_name)
 			  		print("time=",tt[:2])
 			  		attendance_subjects.append(subject_name)
 			  		if(time[0]<tt[0]):
@@ -103,7 +99,6 @@ def loginhome(request):
 				  			b=a_link.split("?")[1].split("&")
 				  			sessid=b[0].split("=")[1]
 				  			sesskey=b[1].split("=")[1]
-				  			print(sessid)
 				  			print(sesskey)
 				  			link="http://lms.rgukt.ac.in/mod/attendance/attendance.php"
 				  			final_page=s.get(a_link,headers=headers).text
@@ -119,15 +114,12 @@ def loginhome(request):
 				  				"status":status,
 				  				"submitbutton":"Save+changes"
 				  			}
-				  			#print(at_data)
 				  			headers['referer']=a_link
-				  			#print(headers)
 				  			submission=s.post(link,data=at_data,headers=headers,allow_redirects=True)
 				  			attendance_status.append("Attendance Marked... [^_^]")
 				  			print("attendance marked")
 				  		else:
 				  			m=soup.find(text=re.compile(date)).parent.parent.parent
-				  			#print(m)
 				  			att_status=m.find('td',class_="statuscol cell c2").text
 				  			if(att_status=="?"):
 				  				attendance_status.append("absent")
