@@ -1,6 +1,12 @@
 {% extends "user/base_template.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
+	<style>
+		.div{
+			text-align:center;
+			margin:0 auto;
+		}
+	</style>
 	<div class='content-section'>
 		<form method="POST">
 			{% csrf_token %}
