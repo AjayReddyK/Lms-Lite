@@ -5,4 +5,5 @@ Key Features are:-
     attendance of each subject i.e, whether present or absent
   2. Display of upcoming(next 5 days) assignments and quizzes provided with a direct link to that activity so that you can reach it in a single click.
   3. Easy to use- After login you have a simple UI displaying status of attendance , assignments and quiz
+
 Technologies Used:- Django framework, Web scraping used BeautifulSoup and Requests Library.
