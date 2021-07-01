@@ -1,25 +1,71 @@
 {% extends "user/base_template.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<style>
-		.div{
-			text-align:center;
-			margin:0 auto;
+		.container{
+			display: flex;
+  			justify-content: center;
+			align-items: center;
+			height: 100%;
+			text-align: center;
+		}
+		td{
+			padding: 5px;
+		}
+		.contain{
+			padding: 10px;
+			position: relative;
+			margin-top: 50%;
+			background-color: darkseagreen;
+			border-radius: 8px;
+		}	
+		.loginbtn{
+			padding: 30px;
+		}
+		label{
+			font-size: 20px;
+		}
+		body{
+			background-color: lightgoldenrodyellow;
+		}
+		input{
+			border-radius: 7px;
 		}
 	</style>
-	<div class='content-section'>
+
+	<div class='container'>
 		<form method="POST">
 			{% csrf_token %}
-			<fieldset class="form-group">
-				<legend class="border-bottom mb-4">Login</legend>
-					Username&nbsp<input type="Username" name="Username" ><br>
-					Password &nbsp<input type="Password" name="Password" >
-			</fieldset>
-			<div class="form-group">
-				<button class="btn btn-outline-info" type="submit">--Login--</button>
-			</div>		
+			<div class="contain">
+				<legend class="border-bottom mb-4"><strong>Login</strong></legend>
+				<div>
+					<table>
+						<tr>
+							<td>
+								<label for="username"><strong>Username</strong></label>
+							</td>
+							<td>
+								<input type="Username" name="Username" id="username">
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label for="password"><strong>Password</strong></label>
+							</td>
+							<td>
+								<input type="Password" name="Password" id="password">
+							</td>
+						</tr>
+						<tr >
+							<td colspan="2" class="loginbtn">
+								<button class="btn btn-primary" type="submit">--Login--</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
 		</form>
-		<div class="border-top pt-3">	
-		</div>
 	</div>
 {% endblock content%}
