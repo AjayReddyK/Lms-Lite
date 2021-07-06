@@ -14,10 +14,6 @@
 		td{
 			padding: 5px;
 		}
-		.contain{
-			padding: 10px;
-			position: relative;
-			border-radius: 8px;
 		}	
 		.loginbtn{
 			padding: 30px;
@@ -35,13 +31,13 @@
 	<div class='content-section'>
 		<form method="POST">
 			{% csrf_token %}
-			<div class="contain">
-				<legend class="border-bottom mb-4"><strong>Login</strong></legend>
+			<div class="form-group">
+				<legend class="border-bottom mb-4">Login</legend>
 				<div>
 					<table>
 						<tr>
 							<td>
-								<label for="username"><strong>Username</strong></label>
+								<label for="username">Username</label>
 							</td>
 							<td>
 								<input type="Username" name="Username" id="username">
@@ -49,7 +45,7 @@
 						</tr>
 						<tr>
 							<td>
-								<label for="password"><strong>Password</strong></label>
+								<label for="password">Password</label>
 							</td>
 							<td>
 								<input type="Password" name="Password" id="password">
