@@ -73,21 +73,32 @@ def loginhome(request):
 			  		timet=i.find("div",class_="row").find("div",class_="col-11").text
 			  		updated_time=timet.split(",")[1]
 			  		attendance_timings.append(updated_time)
-			  		temp_time=updated_time[1:].split(" ")[:2]
-			  		tt=temp_time[0].split(":")
-			  		tt.append(temp_time[1])
+			  		print("updated_time=",updated_time)
+			  		start_t=updated_time[1:].split(" ")[:2]
+			  		end_t=updated_time[1:].split(" ")[3:]
+			  		print("start_time=",start_t)
+			  		print("end_time=",end_t)
+			  		start_time=start_t[0].split(":")
+			  		start_time.append(start_t[1])
+			  		end_time=end_t[0].split(":")
+			  		end_time.append(end_t[1])
 			  		for j in range(2):
-			  			tt[j]=int(tt[j])
-			  		if(tt[2]=="PM" and tt[0]<12):
-			  			tt[0]=tt[0]+12
-			  		tt[1]=tt[1]+3
+			  			start_time[j]=int(start_time[j])
+			  			end_time[j]=int(end_time[j])
+			  		if(start_time[2]=="PM" and start_time[0]<12):
+			  			start_time[0]=start_time[0]+12
+			  		if(end_time[2]=="PM" and end_time[0]<12):
+			  			end_time[0]=end_time[0]+12
 			  		event=i.find_all('div',class_='row mt-1')[-1]
 			  		subject_name=event.find('div',class_='col-11').a.text
-			  		print("time=",tt[:2])
+			  		print("total start time=",start_time)
+			  		print("start time=",start_time[:2])
+			  		print("total end time=",end_time)
+			  		print("end time=",end_time[:2])
 			  		attendance_subjects.append(subject_name)
-			  		if(time[0]<tt[0]):
+			  		if(time[0]<start_time[0]):
 			  			attendance_status.append("Not active yet")
-			  		elif(time[0]==tt[0] and time[1]<tt[1]):
+			  		elif(time[0]==start_time[0] and time[1]<start_time[1]):
 			  			attendance_status.append("Not active yet")
 			  		else:
 				  		link=i.find('a',class_='card-link')['href']
@@ -122,7 +133,10 @@ def loginhome(request):
 				  			m=soup.find(text=re.compile(date)).parent.parent.parent
 				  			att_status=m.find('td',class_="statuscol cell c2").text
 				  			if(att_status=="?"):
-				  				attendance_status.append("absent")
+				  				if(time[0]<end_time[0] or (time[0]==end_time[0] and time[1]<end_time[1])):
+				  					attendance_status.append("Not active yet(server time lag-reload after sometime)")
+				  				else:
+				  					attendance_status.append("absent")
 				  			elif(att_status=="Present"):
 				  			 	attendance_status.append("present")
 				  			else:
