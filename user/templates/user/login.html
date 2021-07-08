@@ -4,13 +4,21 @@
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<style>
-		.content-section{
+		.content-section1{
+			position: inherit;
   			justify-content: center;
 			align-items: center;
 			text-align: center;
+			padding: 10px;
+			border: 1px solid #dddddd;
+			background-color: #ffffff;
+			margin-left: 50%;
+			margin-top: 20%;
+			border-radius: 10px;
 		}
 		table{
-			align-items:center;}
+			align-items:center;
+			margin: auto;}
 		td{
 			padding: 5px;
 		}
@@ -24,11 +32,21 @@
 		body{
 		}
 		input{
-			border-radius: 6px;
+			border-radius: 10px;
+			
 		}
+
+		@media only screen and (max-width: 600px) {
+			.content-section1{
+				margin:auto;
+				margin-top:30%;
+				width: 100%;
+			}
+		  }
 	</style>
 
-	<div class='content-section'>
+
+	<div class='content-section1'>
 		<form method="POST">
 			{% csrf_token %}
 			<div class="form-group">
