@@ -41,7 +41,7 @@ def loginhome(request):
 			  global context
 			  print("entering requests")
 			  url="http://lms.rgukt.ac.in/login/index.php"
-			  r=s.get(url,headers=headers).text
+			  r=s.get(url,headers=headers)
 			  print("got data, appling soup")
 			  soup=BeautifulSoup(r,'lxml')
 			  print("soup applied , next finding logintoken")
@@ -49,7 +49,7 @@ def loginhome(request):
 			  print("found token , next posting request")
 			  r=s.post(url,data=login_data,headers=headers).text
 			  print("request posted")
-			  soup=BeautifulSoup(r,'lxml')
+			  soup=BeautifulSoup(r.content,'html5lib')
 			  a=soup.body.find(text=re.compile(username[1:]))
 			  if(a!=None):
 			  	print('credentials are correct')
