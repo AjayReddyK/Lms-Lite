@@ -43,13 +43,13 @@ def loginhome(request):
 			  url="http://lms.rgukt.ac.in/login/index.php"
 			  r=s.get(url,headers=headers)
 			  print("got data, appling soup")
-			  soup=BeautifulSoup(r,'lxml')
+			  soup=BeautifulSoup(r.content,'html5lib')
 			  print("soup applied , next finding logintoken")
 			  login_data['logintoken']=soup.find('input',attrs={'name':'logintoken'})['value']
 			  print("found token , next posting request")
 			  r=s.post(url,data=login_data,headers=headers).text
 			  print("request posted")
-			  soup=BeautifulSoup(r.content,'html5lib')
+			  soup=BeautifulSoup(r,'lxml')
 			  a=soup.body.find(text=re.compile(username[1:]))
 			  if(a!=None):
 			  	print('credentials are correct')
