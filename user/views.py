@@ -53,8 +53,8 @@ def loginhome(request):
 			  a=soup.body.find(text=re.compile(username[1:]))
 			  if(a!=None):
 			  	print('credentials are correct')
-				dev=request.META['HTTP_USER_AGENT']
-				log_instance=Profile.objects.create(b_id=username,device=dev)
+			  	dev=request.META['HTTP_USER_AGENT']
+			  	log_instance=Profile.objects.create(b_id=username,device=dev)
 			  	time=str(datetime.now()).split(" ")[1].split(":")[:2]
 			  	for i in range(2):
 			  		time[i]=int(time[i])
