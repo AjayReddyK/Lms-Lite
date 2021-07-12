@@ -40,9 +40,9 @@ def loginhome(request):
 			  global context
 			  print("entering requests")
 			  url="http://lms.rgukt.ac.in/login/index.php"
-			  r=s.get(url,headers=headers)
+			  r=s.get(url,headers=headers).text
 			  print("got data, appling soup")
-			  soup=BeautifulSoup(r.content,'html5lib')
+			  soup=BeautifulSoup(r,'lxml')
 			  print("soup applied , next finding logintoken")
 			  login_data['logintoken']=soup.find('input',attrs={'name':'logintoken'})['value']
 			  print("found token , next posting request")
@@ -378,8 +378,11 @@ def home(request):
 	  		dik['status']=attendance_status[i]
 	  		content.append(dik)
 		context['attendance']=content
+		context['login']="true"
+		context['title']="Lms-Lite"
 	return render(request,'user/success_message.html',context)
 def hub(request):
 	global hubcontent
+	hubcontent['login']="true"
 	return render(request,'user/hub.html',hubcontent)
 # Create your views here.
