@@ -1,0 +1,41 @@
+{% extends 'user/base_template.html' %}
+{% block content %}
+	<style>
+		h3{
+			margin-bottom: 2rem;
+		}
+	</style>
+	<h3> Attendances<small class="text-muted">(Today's)</small> </h3>
+	{% for item in attendance %}
+		<article class="media content-section">
+		  <div class="media-body">
+		    <strong>{{ item.subject }}</strong>
+		    <small class="text-muted">{{ item.time }}</small>
+		    <p  {% ifequal item.status "present" %} style="color: darkgreen;" {% else %}{% ifequal item.status "Not active yet" %} style="color: dodgerblue;" {% else %} {% ifequal item.status "absent" %} style="color: red;" {% else %} style="color: blueviolet;" {% endifequal %} {% endifequal %} {% endifequal %} >{{ item.status }}</p>
+		  </div>
+		</article>
+	{% endfor %}
+	<h3> Upcoming Assignment Submissions<small class="text-muted">(next 5 days)</small> </h3>
+	{% for item in assignment %}
+		<article class="media content-section">
+		  <div class="media-body">
+		    <strong>{{ item.subject }}</strong>
+		    <small class="text-muted">{{ item.time }}</small>
+		    <p>{{ item.title }}</p>
+		    <a href={{ item.link }} target="blank"> Add Submission </a>
+		  </div>
+		</article>
+	{% endfor %}
+	<h3> Upcoming Quiz<small class="text-muted">(next 5 days)</small> </h3>
+	{% for item in quiz %}
+		<article class="media content-section">
+		  <div class="media-body">
+		    <strong>{{ item.subject }}</strong>
+		    <small class="text-muted">{{ item.time }}</small>
+		    <p>{{ item.title }}</p>
+		    <a href={{ item.link }} target="blank"> Go to activity </a>
+		  </div>
+		</article>
+	{% endfor %}
+{% endblock content %}
+

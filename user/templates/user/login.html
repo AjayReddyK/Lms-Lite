@@ -1,0 +1,230 @@
+{% extends "user/base_template.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<style>
+		.hubheader h3{
+			color: var(--hubhead);
+		}
+		/* for smooth transition */
+		* {
+			transition: background-color 0.6s ease, color 1s ease;
+		}
+		.content-section1{		
+  			justify-content: center;
+			align-items: center;
+			text-align: center;
+			padding: 10px;
+			border: 1px solid #dddddd;
+			background-color: var(--white2);
+			margin-left: 50%;
+			margin-top: 5%;
+			border-radius: 10px;
+		}
+		table{
+			align-items:center;
+			margin: auto;}
+		td{
+			padding: 5px;
+		}
+		}	
+		.loginbtn{
+			padding: 30px;
+		}
+		label{
+			font-size: 20px;
+		}
+		body{
+			font-family: "Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+			font-size: 1rem;
+			font-weight: 400;
+			line-height: 1.5;
+			text-align: left;
+			background-color: var(--white1);
+		}
+		input{
+			border-radius: 6px;
+			border: 1px solid;
+		}
+
+		@media only screen and (max-width: 600px) {
+			.content-section1{
+				margin:auto;
+				margin-top:5rem;
+				width: 100%;
+			}
+		}
+		.hubheader{
+			margin: 2rem 0 0 27rem;
+			font-style: oblique;
+		}
+		.container1{
+			margin-top: 2%;
+			width: 150%;
+			margin-bottom:4rem;
+		}
+		pre{
+			padding: 0.1rem;
+		}
+		.card {
+   			box-shadow: 0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);
+			word-wrap: break-word;
+			background-color: var(--hubcard);
+		}
+		*, ::after, ::before {
+    		box-sizing: border-box;
+		}
+		pre code{
+			font-size: inherit;
+			color: inherit;
+			word-break: normal;
+		}
+		.card-body{
+			padding: 1.25rem;
+		}
+		code {
+			display: block;
+			padding: 1.1rem;
+			margin: 0;
+			line-height: 1.4;
+			word-wrap: break-word;
+			white-space: pre-wrap;
+			background-color: var(--codelight);
+			border: 1px solid #ccc;
+			border-radius: 4px;
+		}
+		p{
+			margin-top: 0;
+			margin-bottom: 0.5rem;
+		}
+		
+		.linkdata{
+			margin:0;
+		}
+
+		.site-header {
+    		line-height: 2rem;
+    		margin-bottom: -2rem;
+		}
+
+		@media only screen and (max-width: 600px) {
+			.hubheader{
+				margin:auto;
+				margin-top: 1.5rem;
+				margin-left: 2.5rem;
+				padding: 2px;
+			}
+			.container1{
+				width: 100%;
+			}
+
+		}
+
+		span{
+			top: 40%;
+			right: -5%;
+			cursor: pointer;
+		}
+		.icon1 {
+			padding: 0px;
+			margin-top: -1.5rem;
+			margin-left:4.5rem;
+		}
+		input{
+			width: 100%;
+			padding: 4px;
+		}
+		i{
+			position: absolute;
+		}
+	</style>
+
+	<div class='content-section1'>
+		<form method="POST">
+			{% csrf_token %}
+			<div class="form-group">
+				<legend class="border-bottom mb-4">Login</legend>
+				<div>
+					<table>
+						<tr>
+							<td>
+								<label for="username">Username</label>
+							</td>
+							<td>
+								<input type="Username" name="Username" id="username">
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label for="password">Password</label>
+							</td>
+							<td>
+								<input type="Password" name="Password" id="password">
+							</td>
+						</tr>
+						<tr >
+							<td colspan="2" class="loginbtn">
+								<button class="btn btn-outline-info" type="submit">--Login--</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<!-- hub content -->
+	<div class="hubheader">
+	<h3>Recent Hub Notices</h3>
+	</div>
+	<div class="container1">
+		<div id="accordion">
+			{% for card in cards %}
+			<div class="card">
+				<div class="card-header">
+					<a class="card-link" data-toggle="collapse" href="#{{card.no}}">
+						<font color="#810404">{{ card.time }}:</font>
+						{{ card.header }}
+					</a>
+				</div>
+
+				<div id="{{card.no}}" class="collapse" data-parent="#accordion" >
+					<div class="card-body">
+<pre>
+<code>
+{{ card.content }}
+</code>
+</pre>
+						<div class="linkdata">
+							{% ifequal card.url "false" %}
+							{% else %}
+								<p>
+									<b>URL:</b> 
+									<a href={{ card.url }} target="_blank">Click Here</a>
+								</p>
+							{% endifequal %}
+
+							{% ifequal card.download "false" %}
+							{% else %}
+							<p>
+								<b>Download </b>
+								<a href={{card.download }}>Notice Attachment</a>
+							</p>
+							{% endifequal %}
+							<p>
+								<b>Published By: </b>
+								<a style="color: red;">{{card.published_by }}</a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+            {% endfor %}
+		</div>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock content%}
