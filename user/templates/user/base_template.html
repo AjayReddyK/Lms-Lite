@@ -59,9 +59,9 @@
 		font-weight: bold;
 		}
 
-		.navelement{
+		/* .navelement{
 			color:aliceblue
-		}
+		} */
 	{% else %}
 
 	{% endifequal %}
@@ -79,33 +79,66 @@
 		border-radius: 4px;
 		font-weight: bold;
 	}
+	/* nav link colors */
+	.navelement{
+		color: #fff;
+	}
+
+	/* footer */
+	.box1 {
+		background-color: #dfdfe2;
+		width: 100%;
+		margin-bottom: 2rem;
+		padding: 1rem;
+	}
+
+	.company {
+		font-style: oblique;
+		font-size: larger;
+	}
+
+	.developers {
+		font-weight: lighter;
+	}
+
+	@media only screen and (max-width: 600px){
+		.box1{
+			width: 100%;
+		}
+	}
+
+	.marbottom{
+		margin-bottom: 2px;
+	}
+
+
 </style>
 <body>
 	<header class="site-header">
 		<nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
 			<ul>
 				<li>
-					<a class="navbar-brand mr-4 logo1">Rgukt Lms</a>
+					<a class="navbar-brand mr-4 logo1" href="#">Rgukt Lms</a>
 				</li>
-				<li class="navelement">
+				<li>
 					{% ifequal login "true" %}
-					<a href="{% url 'home' %}">
+					<a href="#" class="navelement">
 						<i class="fa fa-home" style="font-size: 29px;"></i>
 					</a>
 					{% else %}
 
 					{% endifequal %}	
 				</li>
-				<li class="navelement">
+				<li>
 					{% ifequal login "true" %}
-						<a href="{% url 'hub' %}">Hub</a>
+						<a href="{% url 'hub' %}" class="navelement">Hub</a>
 					{% else %}
 
 					{% endifequal %}
 				</li>
-				<li class="navelement">
+				<li>
 					{% ifequal login "true" %}	
-						<a href="{% url 'login' %}" >Logout</a>
+						<a href="{% url 'login' %}" class="navelement">Logout</a>
 					{% else %}
 
 					{% endifequal %}
@@ -133,6 +166,15 @@
 	    </div>
 	  </div>
 	</main>
+
+	<!-- footer section -->
+	<div class="box1">
+		<div class="footer text-center">
+			<p class="company marbottom"><span>&copy;</span>Helipid Technologies</p>
+			<p class="product marbottom">LMS Lite | Version 1.0</p>
+		<p class="developers marbottom">Developed By : <a href="https://www.linkedin.com/in/ajay-kumar-reddy-kanduru/" target="_blank"> Ajay</a> | <a href="https://www.linkedin.com/in/ganeshthoutam/" target="_blank">Ganesh</a></p>
+		</div>
+	</div>
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
