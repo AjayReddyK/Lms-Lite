@@ -381,7 +381,7 @@ def home(request):
 	  		content.append(dik)
 		context['attendance']=content
 		context['login']="true"
-		context['title']="Lms-Lite"
+		context['title']="LmsLite"
 	return render(request,'user/success_message.html',context)
 def hub(request):
 	global hubcontent
