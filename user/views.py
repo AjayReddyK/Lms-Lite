@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import lxml
+from .models import Profile 
 from django.contrib import messages
 
 context={}
@@ -52,6 +53,8 @@ def loginhome(request):
 			  a=soup.body.find(text=re.compile(username[1:]))
 			  if(a!=None):
 			  	print('credentials are correct')
+				dev=request.META['HTTP_USER_AGENT']
+				log_instance=Profile.objects.create(b_id=username,device=dev)
 			  	time=str(datetime.now()).split(" ")[1].split(":")[:2]
 			  	for i in range(2):
 			  		time[i]=int(time[i])
@@ -202,11 +205,10 @@ def loginhome(request):
 			  		dik['link']=quiz_link[i]
 			  		content.append(dik)
 			  	context['quiz']=content
-			  	context['title']='Lms-Lite'
+			  	context['title']='LmsLite'
 			  	context['login']="true"
 			  	messages.success(request,f'Welcome {a} !!')
 			  	return render(request,'user/success_message.html',context)
-			  messages.warning(request,"Incorrect UserId or Password")
 			  print("something went wrong")
 	global hubcontent
 	hub=requests.get("https://hub.rgukt.ac.in/hub/notice/index",headers=headers,verify=False).text
@@ -266,7 +268,7 @@ def loginhome(request):
 		  dictionary['no']=i
 		  l.append(dictionary)
 	hubcontent['cards']=l
-	hubcontent['title']='Lms-Lite'
+	hubcontent['title']='LmsLite'
 	hubcontent['login']="false"
 	#print(hubcontent)
 	return render(request,'user/login.html',hubcontent)
