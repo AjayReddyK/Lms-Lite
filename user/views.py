@@ -338,7 +338,7 @@ def home(request):
         print("current time=",time)
         cal=s.get("http://lms.rgukt.ac.in/calendar/view.php?view=day",headers=headers)
         soup=BeautifulSoup(cal.content,'html5lib')
-        date=soup.find('div',class_="calendar-controls").h2.text.split(" ")
+        date=soup.find('div',class_="calendarwrapper")find('div',class_="calendar-controls").h2.text.split(" ")
         date[2]=date[2][0:3]
         date=" ".join(date[1:])
         print(date)
