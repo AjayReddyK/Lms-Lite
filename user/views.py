@@ -24,6 +24,7 @@ def loginhome(request):
 		}
 		print("credentials received")
 		global s
+		s=requests.Session()
 		with s:
 			  attendance_subjects=[]
 			  attendance_timings=[]
