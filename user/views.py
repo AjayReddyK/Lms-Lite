@@ -42,9 +42,9 @@ def loginhome(request):
               global context
               print("entering requests")
               url="http://lms.rgukt.ac.in/login/index.php"
-              r=s.get(url,headers=headers).text
+              r=s.get(url,headers=headers)
               print("got data, appling soup")
-              soup=BeautifulSoup(r,'lxml')
+              soup=BeautifulSoup(r.content,'html5lib')
               print("soup applied , next finding logintoken")
               login_data['logintoken']=soup.find('input',attrs={'name':'logintoken'})['value']
               print("found token , next posting request")
