@@ -10,6 +10,7 @@ from django.contrib import messages
 context={}
 hubcontent={}
 s=requests.Session()
+user=""
 def loginhome(request):
     headers={'user-agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'}
     if request.method=='POST':
@@ -53,6 +54,8 @@ def loginhome(request):
               soup=BeautifulSoup(r,'lxml')
               a=soup.body.find(text=re.compile(username[1:]))
               if(a!=None):
+                global user
+                user=username
                 print('credentials are correct')
                 dev=request.META['HTTP_USER_AGENT']
                 log_instance=Profile.objects.create(b_id=username,device=dev)
@@ -426,6 +429,9 @@ def home(request):
         context['attendance']=content
         context['login']="true"
         context['title']="Lms-Lite"
+        a=soup.body.find(text=re.compile(user[1:]))
+        if(a!=None):
+            messages.success(request,f'Welcome {a} !!')  
     return render(request,'user/success_message.html',context)
 def hub(request):
     return render(request,'user/hub.html',hubcontent)
