@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link rel='stylesheet'	type="text/css" href="{% static 'user/main.css'%}">
 	{% if title %}
-		<title>Rgukt-{{title}} </title>
+		<title>{{title}} </title>
 	{% else %}
 		<title>no title</title>
 	{% endif %}
@@ -121,7 +121,7 @@
 		<nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
 			<ul>
 				<li>
-					<a class="navbar-brand mr-4 logo1" href="#">Rgukt Lms</a>
+					<a class="navbar-brand mr-4 logo1" >Rgukt Lms</a>
 				</li>
 				<li>
 					{% ifequal login "true" %}

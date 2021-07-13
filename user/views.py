@@ -215,14 +215,14 @@ def loginhome(request):
 	hub=requests.get("https://hub.rgukt.ac.in/hub/notice/index",headers=headers,verify=False).text
 	print("connected hub")
 	hubdata=BeautifulSoup(hub,'lxml')
-	cards=hubdata.find('div',class_="card-body text-success").find_all('div',class_="card")[:6]
+	cards=hubdata.find('div',class_="card-body text-success").find_all('div',class_="card")[:12]
 	card_time=[]
 	card_header=[]
 	card_description=[]
 	card_url=[]
 	card_attachment=[]
 	card_published_by=[]
-	for i in range(6):
+	for i in range(12):
 		  header=cards[i].find('div',class_="card-header").a.text
 		  header=header.split(":")
 		  card_time.append(header[0].strip())
@@ -258,7 +258,7 @@ def loginhome(request):
 		    card_url.append("false")
 		    card_attachment.append("false")
 	l=[]
-	for  i in range(6):
+	for  i in range(12):
 		  dictionary={}
 		  dictionary['time']=card_time[i]
 		  dictionary['header']=card_header[i]
@@ -272,7 +272,11 @@ def loginhome(request):
 	hubcontent['title']='LmsLite'
 	hubcontent['login']="false"
 	#print(hubcontent)
-	return render(request,'user/login.html',hubcontent)
+	hubcards={}
+	hubcards['cards']=l[:6]
+	hubcards['title']='LmsLite'
+	hubcards['login']='false'
+	return render(request,'user/login.html',hubcards)
 def home(request):
 	global context
 	global s
