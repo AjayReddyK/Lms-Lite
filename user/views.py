@@ -310,7 +310,7 @@ def loginhome(request):
           l.append(dictionary)
     hubcontent['cards']=l
     hubcontent['title']='LmsLite'
-    hubcontent['login']="false"
+    hubcontent['login']="true"
     #print(hubcontent)
     hubcards={}
     hubcards['cards']=l[:6]
@@ -318,12 +318,11 @@ def loginhome(request):
     hubcards['login']='false'
     return render(request,'user/login.html',hubcards)
 def home(request):
-    global context
-    global s
     attendance_subjects=[]
     attendance_timings=[]
     attendance_status=[]
     content=[]
+    global context
     headers={'user-agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'}
     with s:
         time=str(datetime.now()).split(" ")[1].split(":")[:2]
@@ -336,8 +335,8 @@ def home(request):
             time[1]=dif
             time[0]+=1
         print("current time=",time)
-        cal=s.get("http://lms.rgukt.ac.in/calendar/view.php?view=day",headers=headers)
-        soup=BeautifulSoup(cal.content,'html5lib')
+        cal=s.get("http://lms.rgukt.ac.in/calendar/view.php?view=day",headers=headers).text
+        soup=BeautifulSoup(cal,'lxml')
         date=soup.find('div',class_="calendarwrapper").find('div',class_="calendar-controls").h2.text.split(" ")
         date[2]=date[2][0:3]
         date=" ".join(date[1:])
@@ -429,7 +428,5 @@ def home(request):
         context['title']="Lms-Lite"
     return render(request,'user/success_message.html',context)
 def hub(request):
-    global hubcontent
-    hubcontent['login']="true"
     return render(request,'user/hub.html',hubcontent)
 # Create your views here.
