@@ -12,7 +12,7 @@ from django.contrib import messages
 def check_cookies(request):
     if('username' in request.COOKIES):
         return redirect('home')
-    return redirect('')
+    return redirect('login')
 def home(request):
     login_data={
             'anchor':'',
