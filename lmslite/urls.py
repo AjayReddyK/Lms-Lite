@@ -20,7 +20,10 @@ from user import views as user_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',user_views.loginhome,name='login'),
+    path('',user_views.check_cookies,name='base'),
+    path('login/',user_views.loginhome,name='login'),
     path('home/',user_views.home,name='home'),
-    path('hub/',user_views.hub,name='hub')
+    path('hub/',user_views.hub,name='hub'),
+    path('logout/',user_views.logout,name='logout')
+
 ]
