@@ -792,14 +792,14 @@ def hub(request):
     hub=requests.get("https://hub.rgukt.ac.in/hub/notice/index",headers=headers,verify=False).text
     print("connected hub")
     hubdata=BeautifulSoup(hub,'lxml')
-    cards=hubdata.find('div',class_="card-body text-success").find_all('div',class_="card")[:12]
+    cards=hubdata.find('div',class_="card-body text-success").find_all('div',class_="card")[:15]
     card_time=[]
     card_header=[]
     card_description=[]
     card_url=[]
     card_attachment=[]
     card_published_by=[]
-    for i in range(12):
+    for i in range(15):
           header=cards[i].find('div',class_="card-header").a.text
           header=header.split(":")
           card_time.append(header[0].strip())
@@ -875,7 +875,7 @@ def hub(request):
             card_url.append("false")
             card_attachment.append("false")
     l=[]
-    for  i in range(12):
+    for  i in range(15):
           dictionary={}
           dictionary['time']=card_time[i]
           dictionary['header']=card_header[i]
