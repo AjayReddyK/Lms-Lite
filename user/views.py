@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 from django.shortcuts import render,redirect
 from django.http import HttpResponseRedirect
 import requests
@@ -53,7 +53,7 @@ def check_cookies(request):
                     print('credentials are correct')
                     dev=request.META['HTTP_USER_AGENT']
                     log_instance=Profile.objects.create(b_id=username,device=dev)
-                    time=str(datetime.now()).split(" ")[1].split(":")[:2]
+                    time=str(datetime.datetime.now()).split(" ")[1].split(":")[:2]
                     for i in range(2):
                         time[i]=int(time[i])
                     time[0]=time[0]+5
@@ -145,12 +145,19 @@ def check_cookies(request):
                                     attendance_status.append("present")
                                 else:
                                     attendance_status.append("status_unknown")
-                    for i in range(len(attendance_subjects)):
+                    if(len(attendance_subjects)==0):
                         dik={}
-                        dik['subject']=attendance_subjects[i]
-                        dik['time']=attendance_timings[i]
-                        dik['status']=attendance_status[i]
+                        dik['subject']="no attendance found"
+                        dik['time']=""
+                        dik["status"]=""
                         content.append(dik)
+                    else:
+                        for i in range(len(attendance_subjects)):
+                            dik={}
+                            dik['subject']=attendance_subjects[i]
+                            dik['time']=attendance_timings[i]
+                            dik['status']=attendance_status[i]
+                            content.append(dik)
                     context['attendance']=content
                     events=l3.find_all('div',{'class':'event mt-3','data-event-component':'mod_assign'})
                     bevents=l3.find_all('div',{'class':'event mt-3','data-event-component':'mod_quiz'})
@@ -185,30 +192,46 @@ def check_cookies(request):
                             events=l3.find_all('div',{'class':'event mt-3','data-event-component':'mod_assign'})
                             bevents=l3.find_all('div',{'class':'event mt-3','data-event-component':'mod_quiz'})
                     content=[]
-                    for i in range(len(assignment_subjects)):
+                    if(len(assignment_subjects)==0):
                         dik={}
-                        dik['subject']=assignment_subjects[i]
-                        dik['time']=assignment_timings[i]
-                        dik['title']=assignment_titles[i]
-                        dik['link']=assignment_link[i]
+                        dik['subject']="No assignments found"
+                        dik['time']=""
+                        dik['title']=""
+                        dik['link']=""
                         content.append(dik)
+                    else:
+                        for i in range(len(assignment_subjects)):
+                            dik={}
+                            dik['subject']=assignment_subjects[i]
+                            dik['time']=assignment_timings[i]
+                            dik['title']=assignment_titles[i]
+                            dik['link']=assignment_link[i]
+                            content.append(dik)
                     context['assignment']=content
                     bevents=l3.find_all('div',{'class':'event mt-3','data-event-component':'mod_quiz'})
                     content=[]
-                    for i in range(len(quiz_subjects)):
+                    if(len(quiz_subjects)==0):
                         dik={}
-                        dik['subject']=quiz_subjects[i]
-                        dik['time']=quiz_timings[i]
-                        dik['title']=quiz_titles[i]
-                        dik['link']=quiz_link[i]
+                        dik['subject']="No quiz found"
+                        dik['time']=""
+                        dik['title']=""
+                        dik['link']=""
                         content.append(dik)
+                    else:
+                        for i in range(len(quiz_subjects)):
+                            dik={}
+                            dik['subject']=quiz_subjects[i]
+                            dik['time']=quiz_timings[i]
+                            dik['title']=quiz_titles[i]
+                            dik['link']=quiz_link[i]
+                            content.append(dik)
                     context['quiz']=content
                     context['title']='LmsLite'
                     context['login']="true"
                     messages.success(request,f'Welcome {a} !!')
                     return render(request,'user/success_message.html',context)
                   print("something went wrong in home")
-        
+                  return HttpResponse("Something wrong in Lms Site")      
     return redirect('login')
 def home(request):
     if('username' in request.COOKIES):
@@ -254,7 +277,7 @@ def home(request):
                     print('credentials are correct')
                     dev=request.META['HTTP_USER_AGENT']
                     log_instance=Profile.objects.create(b_id=username,device=dev)
-                    time=str(datetime.now()).split(" ")[1].split(":")[:2]
+                    time=str(datetime.datetime.now()).split(" ")[1].split(":")[:2]
                     for i in range(2):
                         time[i]=int(time[i])
                     time[0]=time[0]+5
@@ -346,12 +369,19 @@ def home(request):
                                     attendance_status.append("present")
                                 else:
                                     attendance_status.append("status_unknown")
-                    for i in range(len(attendance_subjects)):
+                    if(len(attendance_subjects)==0):
                         dik={}
-                        dik['subject']=attendance_subjects[i]
-                        dik['time']=attendance_timings[i]
-                        dik['status']=attendance_status[i]
+                        dik['subject']="no attendance found"
+                        dik['time']=""
+                        dik["status"]=""
                         content.append(dik)
+                    else:
+                        for i in range(len(attendance_subjects)):
+                            dik={}
+                            dik['subject']=attendance_subjects[i]
+                            dik['time']=attendance_timings[i]
+                            dik['status']=attendance_status[i]
+                            content.append(dik)
                     context['attendance']=content
                     events=l3.find_all('div',{'class':'event mt-3','data-event-component':'mod_assign'})
                     bevents=l3.find_all('div',{'class':'event mt-3','data-event-component':'mod_quiz'})
@@ -386,30 +416,46 @@ def home(request):
                             events=l3.find_all('div',{'class':'event mt-3','data-event-component':'mod_assign'})
                             bevents=l3.find_all('div',{'class':'event mt-3','data-event-component':'mod_quiz'})
                     content=[]
-                    for i in range(len(assignment_subjects)):
+                    if(len(assignment_subjects)==0):
                         dik={}
-                        dik['subject']=assignment_subjects[i]
-                        dik['time']=assignment_timings[i]
-                        dik['title']=assignment_titles[i]
-                        dik['link']=assignment_link[i]
+                        dik['subject']="No assignments found"
+                        dik['time']=""
+                        dik['title']=""
+                        dik['link']=""
                         content.append(dik)
+                    else:
+                        for i in range(len(assignment_subjects)):
+                            dik={}
+                            dik['subject']=assignment_subjects[i]
+                            dik['time']=assignment_timings[i]
+                            dik['title']=assignment_titles[i]
+                            dik['link']=assignment_link[i]
+                            content.append(dik)
                     context['assignment']=content
                     bevents=l3.find_all('div',{'class':'event mt-3','data-event-component':'mod_quiz'})
                     content=[]
-                    for i in range(len(quiz_subjects)):
+                    if(len(quiz_subjects)==0):
                         dik={}
-                        dik['subject']=quiz_subjects[i]
-                        dik['time']=quiz_timings[i]
-                        dik['title']=quiz_titles[i]
-                        dik['link']=quiz_link[i]
+                        dik['subject']="No quiz found"
+                        dik['time']=""
+                        dik['title']=""
+                        dik['link']=""
                         content.append(dik)
+                    else:
+                        for i in range(len(quiz_subjects)):
+                            dik={}
+                            dik['subject']=quiz_subjects[i]
+                            dik['time']=quiz_timings[i]
+                            dik['title']=quiz_titles[i]
+                            dik['link']=quiz_link[i]
+                            content.append(dik)
                     context['quiz']=content
                     context['title']='LmsLite'
                     context['login']="true"
                     messages.success(request,f'Welcome {a} !!')
                     return render(request,'user/success_message.html',context)
                   print("something went wrong in home")
-        
+                  return HttpResponse("Something wrong in lms site")
     return redirect('login')
 def loginhome(request):
     headers={'user-agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'}
@@ -456,7 +502,7 @@ def loginhome(request):
                 print('credentials are correct')
                 dev=request.META['HTTP_USER_AGENT']
                 log_instance=Profile.objects.create(b_id=username,device=dev)
-                time=str(datetime.now()).split(" ")[1].split(":")[:2]
+                time=str(datetime.datetime.now()).split(" ")[1].split(":")[:2]
                 for i in range(2):
                     time[i]=int(time[i])
                 time[0]=time[0]+5
@@ -548,12 +594,19 @@ def loginhome(request):
                                 attendance_status.append("present")
                             else:
                                 attendance_status.append("status_unknown")
-                for i in range(len(attendance_subjects)):
-                    dik={}
-                    dik['subject']=attendance_subjects[i]
-                    dik['time']=attendance_timings[i]
-                    dik['status']=attendance_status[i]
-                    content.append(dik)
+                if(len(attendance_subjects)==0):
+                        dik={}
+                        dik['subject']="no attendance found"
+                        dik['time']=""
+                        dik["status"]=""
+                        content.append(dik)
+                else:
+                        for i in range(len(attendance_subjects)):
+                            dik={}
+                            dik['subject']=attendance_subjects[i]
+                            dik['time']=attendance_timings[i]
+                            dik['status']=attendance_status[i]
+                            content.append(dik)
                 context['attendance']=content
                 events=l3.find_all('div',{'class':'event mt-3','data-event-component':'mod_assign'})
                 bevents=l3.find_all('div',{'class':'event mt-3','data-event-component':'mod_quiz'})
@@ -588,30 +641,46 @@ def loginhome(request):
                         events=l3.find_all('div',{'class':'event mt-3','data-event-component':'mod_assign'})
                         bevents=l3.find_all('div',{'class':'event mt-3','data-event-component':'mod_quiz'})
                 content=[]
-                for i in range(len(assignment_subjects)):
-                    dik={}
-                    dik['subject']=assignment_subjects[i]
-                    dik['time']=assignment_timings[i]
-                    dik['title']=assignment_titles[i]
-                    dik['link']=assignment_link[i]
-                    content.append(dik)
+                if(len(assignment_subjects)==0):
+                        dik={}
+                        dik['subject']="No assignments found"
+                        dik['time']=""
+                        dik['title']=""
+                        dik['link']=""
+                        content.append(dik)
+                else:
+                        for i in range(len(assignment_subjects)):
+                            dik={}
+                            dik['subject']=assignment_subjects[i]
+                            dik['time']=assignment_timings[i]
+                            dik['title']=assignment_titles[i]
+                            dik['link']=assignment_link[i]
+                            content.append(dik)
                 context['assignment']=content
                 bevents=l3.find_all('div',{'class':'event mt-3','data-event-component':'mod_quiz'})
                 content=[]
-                for i in range(len(quiz_subjects)):
-                    dik={}
-                    dik['subject']=quiz_subjects[i]
-                    dik['time']=quiz_timings[i]
-                    dik['title']=quiz_titles[i]
-                    dik['link']=quiz_link[i]
-                    content.append(dik)
+                if(len(quiz_subjects)==0):
+                        dik={}
+                        dik['subject']="No quiz found"
+                        dik['time']=""
+                        dik['title']=""
+                        dik['link']=""
+                        content.append(dik)
+                else:
+                        for i in range(len(quiz_subjects)):
+                            dik={}
+                            dik['subject']=quiz_subjects[i]
+                            dik['time']=quiz_timings[i]
+                            dik['title']=quiz_titles[i]
+                            dik['link']=quiz_link[i]
+                            content.append(dik)
                 context['quiz']=content
                 context['title']='LmsLite'
                 context['login']="true"
                 messages.success(request,f'Welcome {a} !!')
                 response=render(request,'user/success_message.html',context)
-                response.set_cookie('username',username)
-                response.set_cookie('password',password)
+                response.set_cookie('username',username,expires=datetime.datetime.utcnow()+datetime.timedelta(days=1000))
+                response.set_cookie('password',password,expires=datetime.datetime.utcnow()+datetime.timedelta(days=1000))
                 return response
               print("something went wrong or wrong credentials")
     hubcontent={}

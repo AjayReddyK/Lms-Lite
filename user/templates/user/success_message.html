@@ -36,7 +36,10 @@
 		    <strong>{{ item.subject }}</strong>
 		    <small class="text-muted">{{ item.time }}</small>
 		    <p>{{ item.title }}</p>
+		    {% ifequal item.link "" %}
+		    {% else %}
 		    <a href={{ item.link }} target="blank"> Go to activity </a>
+		    {% endifequal %}
 		  </div>
 		</article>
 	{% endfor %}
