@@ -1,6 +1,6 @@
 import datetime
 from django.shortcuts import render,redirect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpResponse
 import requests
 from django.urls import reverse
 from bs4 import BeautifulSoup
