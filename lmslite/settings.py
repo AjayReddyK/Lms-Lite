@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-m3qeap76b$osd_&cb(z^b3n*4w5vvp#56w#d8pvn9xf8)rp#l8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['lms-lite.herokuapp.com']
+ALLOWED_HOSTS = ['lms-lite.herokuapp.com','lmsrgukt.herokuapp.com']
 
 
 # Application definition
@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'django.contrib.admin',
     'crispy_forms',
+    'django.contrib.sessions',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.messages',
@@ -45,6 +46,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
