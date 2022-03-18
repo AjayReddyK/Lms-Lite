@@ -10,4 +10,4 @@ Key Features are:-
   6. Easy to use- After login you have a simple UI displaying status of attendance , assignments and quiz
 
 Technologies Used:- <br/>
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Django framework, Web scraping used BeautifulSoup and Requests Library.
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Django framework, Web scraping using BeautifulSoup and Requests Library.
